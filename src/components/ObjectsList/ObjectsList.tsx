@@ -2,10 +2,16 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Object from "./Object/object";
 import { ObjectInt } from "../../Models/object";
-import { Container, Navbar, Breadcrumb, Card, Row, Col, Nav } from 'react-bootstrap';
+import { Container, Breadcrumb, Card, Row, Col, Nav } from "react-bootstrap";
+import NavigationBar from "../Navbar/Navbar";
+import Breadcrumbs from "../Breadcrumbs/breadcrumb";
+import ObjectFilter from "../Filter/filter";
 const ObjectsList: React.FC = () => {
   const [objects, setList] = useState<ObjectInt[]>([]);
-
+  const [filteredObjects, setFilteredObjects] = useState<ObjectInt[]>([]);
+  const handleFilterChange = (filteredObjects: ObjectInt[]) => {
+    setFilteredObjects(filteredObjects);
+  };
   useEffect(() => {
     console.log("hi");
     fetch("http://127.0.0.1:8000/object/")
@@ -16,24 +22,35 @@ const ObjectsList: React.FC = () => {
 
   return (
     <>
-     <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">My Website</Navbar.Brand>
+      <NavigationBar />
+      <Breadcrumbs />
+      <ObjectFilter objects={objects} onFilterChange={handleFilterChange} />
+      {/* <Navbar bg="dark" variant="dark" >
+        <Navbar.Brand style={{ marginLeft: '50px' }} href="#home">Expedition</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#about">About</Nav.Link>
-          <Nav.Link href="#contact">Contact</Nav.Link>
+          <Nav.Link href="">Home</Nav.Link>
+          <Nav.Link href="">About</Nav.Link>
         </Nav>
-      </Navbar>
+      </Navbar>*/}
       <Container fluid className="bg-secondary">
-
-        <h1>Список карточек</h1>
-        <Row>
-        <Col md={4} className="mb-4">
-        {objects.map((ob) => (
-          <Object obj={ob} key={ob.ID_Object} />
-        ))}
-         </Col>
+        <Row style={{ marginLeft: "50px" }}>
+          {filteredObjects.map((ob) => (
+            <Col sm={4} className="mb-4">
+              <Object obj={ob} key={ob.ID_Object} />
+            </Col>
+          ))}
         </Row>
+        {/* {filteredObjects.map((obj) => (
+          <Col sm={4} className="mb-4">
+          <Object obj={obj} key={obj.ID_Object} />
+        </Col>
+        ))} */}
+
+        {/* <Col className="mb-4">
+            {objects.map((ob) => (
+              <Object obj={ob} key={ob.ID_Object} />
+            ))}
+          </Col> */}
       </Container>
     </>
   );

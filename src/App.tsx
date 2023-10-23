@@ -5,20 +5,21 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ObjectsList from './components/ObjectsList/ObjectsList';
 import {Container} from 'react-bootstrap'
+import AboutObject from './components/AboutObject/AboutObject';
 function App() {
 
   return (
-    <Container>
+
     <BrowserRouter>
       <Routes>
         {/* <Route path="/" element={<HomePage /} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} /> */}
-        <Route path="/" element={<ObjectsList />} />
-        <Route path="/1" element={<h1>hi2</h1>} />
+        <Route path="/Main/" element={<ObjectsList />} />
+        <Route path="/Main/about/" element={<AboutObject />} />
       </Routes>
     </BrowserRouter>
-    </Container>
+
   );
 };
 
