@@ -1,12 +1,12 @@
 import React from 'react';
-import { ObjectInt } from '../../Models/object';
-import { Container, Breadcrumb, Card, Row, Col, Nav, ListGroup } from "react-bootstrap";
+// import { ObjectInt } from '../../Models/object';
+import { Container,  Card, ListGroup } from "react-bootstrap";
 import NavigationBar from "../Navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import Breadcrumbs from '../Breadcrumbs/breadcrumb';
-interface ObjectProps {
-    obj: ObjectInt
-}
+// interface ObjectProps {
+//     obj: ObjectInt
+// }
 
 const AboutObject: React.FC = () => {
     const location = useLocation();

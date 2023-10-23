@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 export interface ObjectInt {
     ID_Object: number;
     Name_Obj: string;

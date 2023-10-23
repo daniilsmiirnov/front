@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Object from "./Object/object";
 import { ObjectInt } from "../../Models/object";
-import { Container, Breadcrumb, Card, Row, Col, Nav } from "react-bootstrap";
+import { Container,  Row, Col  } from "react-bootstrap";
 import NavigationBar from "../Navbar/Navbar";
 import Breadcrumbs from "../Breadcrumbs/breadcrumb";
 import ObjectFilter from "../Filter/filter";

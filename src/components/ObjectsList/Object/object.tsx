@@ -2,7 +2,7 @@ import React from 'react';
 import { ObjectInt } from '../../../Models/object';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface ObjProps {
     // ID_Object: number;
     // Name_Obj: string;
