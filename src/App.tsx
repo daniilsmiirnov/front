@@ -33,11 +33,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
     // <BrowserRouter basename="/front">
-    <BrowserRouter basename="/front/">
+    <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<HomePage /} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} /> */}
         <Route path="" element={<ObjectsList />} />
         <Route path="/Main/" element={<ObjectsList />} />
         <Route path="/about/" element={<AboutObject />} />
