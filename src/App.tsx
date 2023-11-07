@@ -33,7 +33,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
     // <BrowserRouter basename="/front">
-    <BrowserRouter>
+    <BrowserRouter basename="/front">
       <Routes>
         <Route path="" element={<ObjectsList />} />
         <Route path="/Main/" element={<ObjectsList />} />
