@@ -3,14 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://daniilsmiirnov.github.io/front",
+  "homepage": "https://daniilsmiirnov.github.io/front/",
   "scripts": {
     "dev": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "build": "vite build",
     "predeploy": "rm -rf dist && vite build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist"  
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
