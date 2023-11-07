@@ -6,21 +6,41 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ObjectsList from './components/ObjectsList/ObjectsList';
 // import {Container} from 'react-bootstrap'
 import AboutObject from './components/AboutObject/AboutObject';
-function App() {
+// import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+// function App() {
 
-  return (
+//   return (
 
-    <BrowserRouter basename="/front">
+//     // <BrowserRouter basename="/front">
+//     <BrowserRouter>
+//       <Routes>
+//         {/* <Route path="/" element={<HomePage /} />
+//         <Route path="/about" element={<AboutPage />} />
+//         <Route path="/contact" element={<ContactPage />} /> */}
+//         <Route path="/Main/" element={<ObjectsList />} />
+//         <Route path="/Main/about/" element={<AboutObject />} />
+//       </Routes>
+//     </BrowserRouter>
+
+//   );
+// };
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(
+    // <BrowserRouter basename="/front">
+    <BrowserRouter>
       <Routes>
         {/* <Route path="/" element={<HomePage /} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} /> */}
-        <Route path="/Main" element={<ObjectsList />} />
-        <Route path="/Main/about" element={<AboutObject />} />
+        <Route path="/Main/" element={<ObjectsList />} />
+        <Route path="/Main/about/" element={<AboutObject />} />
       </Routes>
     </BrowserRouter>
+);
 
-  );
-};
-
-export default App
