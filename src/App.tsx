@@ -17,9 +17,9 @@ function App() {
     <BrowserRouter basename="/front">
       <Routes>
         <Route path="" element={<ObjectsList />} />
-        <Route path="/Main/" element={<ObjectsList />} />
+        {/* <Route path="/Main/" element={<ObjectsList />} /> */}
         <Route path="/about/" element={<AboutObject />} />
-        <Route path="/Main/about/" element={<AboutObject />} />
+        {/* <Route path="/Main/about/" element={<AboutObject />} /> */}
       </Routes>
     </BrowserRouter>
 
