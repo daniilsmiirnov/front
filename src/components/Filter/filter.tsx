@@ -31,7 +31,7 @@ const ObjectFilter: React.FC<FilterProps> = ({ objects, onFilterChange }) => {
 
   return (
     <div className='bg-secondary'>
-      <input type="text" placeholder="Search by Obj_Name" value={filter} onChange={handleFilterChange} />
+      <input type="text" placeholder="Поиск по названию" value={filter} onChange={handleFilterChange} />
     </div>
   );
 };

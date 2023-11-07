@@ -3,6 +3,7 @@ import { ObjectInt } from '../../../Models/object';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from "react-router-dom";
+import defaultimg from '../../../assets/defimg.jpg'
 interface ObjProps {
     // ID_Object: number;
     // Name_Obj: string;
@@ -20,7 +21,7 @@ interface ObjProps {
     };
     return (
       <Card style={{ width: '20rem', marginTop:'3rem',backgroundColor: 'lightgray' }}>
-        <Card.Img style={{ width: '20rem',height:'20rem' }} variant="top" src={obj.Image_Url} />
+        <Card.Img style={{ width: '20rem',height:'20rem' }} variant="top" src={obj.Image_Url || defaultimg} />
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Title>{obj.Name_Obj}</Card.Title>
           <Card.Text>
