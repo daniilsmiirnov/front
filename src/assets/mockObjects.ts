@@ -55,33 +55,52 @@ import image from './defimg.jpg';
 //   ];
   
 //   
-export const mockObjects: ObjectInt[] = [
-    {
-      ID_Object: 1,
-      Name_Obj: 'Object 1',
-      Region: 'Region 1',
-      Year: 2020,
-      Opener: 'Opener 1',
-      Status: 'Status 1',
-      Image_Url: image,
-    },
-    {
-      ID_Object: 2,
-      Name_Obj: 'Object 2',
-      Region: 'Region 2',
-      Year: 2021,
-      Opener: 'Opener 2',
-      Status: 'Status 2',
-      Image_Url: image,
-    },
-    {
-      ID_Object: 3,
-      Name_Obj: 'Object 3',
-      Region: 'Region 3',
-      Year: 2022,
-      Opener: 'Opener 3',
-      Status: 'Status 3',
-      Image_Url: image,
-    },
-  ];
+export const mockObjects: ObjectInt[] =[
+          {
+              "ID_Object": 3,
+              "Name_Obj": "Красноярск",
+              "Region": "Центральная Сиб",
+              "Year": 1800,
+              "Opener": "Андрей Дубенский",
+              "Status": "ope",
+              "Image_Url": image
+          },
+          {
+              "ID_Object": 2,
+              "Name_Obj": "о Диомида",
+              "Region": "Чукотский АО",
+              "Year": 1800,
+              "Opener": "Данила Чулков",
+              "Status": "ope",
+              "Image_Url": image
+          },
+          {
+              "ID_Object": 1,
+              "Name_Obj": "с. Карачино",
+              "Region": "Тюменская обл.",
+              "Year": 1800,
+              "Opener": "Андрей Дубенский",
+              "Status": "ope",
+              "Image_Url": image
+          },
+          {
+              "ID_Object": 5,
+              "Name_Obj": "Томск",
+              "Region": "Сибирь",
+              "Year": 1800,
+              "Opener": "Андрей Дубенский",
+              "Status": "ope",
+              "Image_Url": image
+          },
+          {
+              "ID_Object": 11,
+              "Name_Obj": "Мыс Дежнева",
+              "Region": "Север",
+              "Year": 1648,
+              "Opener": "Семен Дежнев",
+              "Status": "ope",
+              "Image_Url": image
+          }
+  
+    ];
  
