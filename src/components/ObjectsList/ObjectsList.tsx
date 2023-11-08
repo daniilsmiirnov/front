@@ -6,20 +6,37 @@ import { Container,  Row, Col  } from "react-bootstrap";
 import NavigationBar from "../Navbar/Navbar";
 import Breadcrumbs from "../Breadcrumbs/breadcrumb";
 import ObjectFilter from "../Filter/filter";
+import {mockObjects} from "../../assets/mockObjects"
 const ObjectsList: React.FC = () => {
   const [objects, setList] = useState<ObjectInt[]>([]);
   const [filteredObjects, setFilteredObjects] = useState<ObjectInt[]>([]);
   const handleFilterChange = (filteredObjects: ObjectInt[]) => {
     setFilteredObjects(filteredObjects);
   };
+  // useEffect(() => {
+  //   console.log("hi");
+  //   fetch("http://127.0.0.1:8000/object/")
+  //     .then((response) => response.json())
+  //     .then((data) => setList(data))
+  //     .catch((error) => console.log(error));
+  // }, []);
   useEffect(() => {
-    console.log("hi");
     fetch("http://127.0.0.1:8000/object/")
-      .then((response) => response.json())
-      .then((data) => setList(data))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Failed get data from server");
+        }
+      })
+      .then((data) => {
+        setList(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setList(mockObjects);
+      });
   }, []);
-
   return (
     <>
       <NavigationBar />
@@ -35,7 +52,7 @@ const ObjectsList: React.FC = () => {
       <Container fluid className="bg-secondary">
         <Row style={{ marginLeft: "50px" }}>
           {filteredObjects.map((ob) => (
-            <Col sm={4} className="mb-4">
+            <Col sm={4} className="mb-4" >
               <Object obj={ob} key={ob.ID_Object} />
             </Col>
           ))}
