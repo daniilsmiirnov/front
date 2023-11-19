@@ -5,13 +5,6 @@ import Card from 'react-bootstrap/Card';
 import { useNavigate } from "react-router-dom";
 import defaultimg from '../../../assets/defimg.jpg'
 interface ObjProps {
-    // ID_Object: number;
-    // Name_Obj: string;
-    // Region: string;
-    // Year: number;
-    // Opener: string;
-    // Status: string;
-    // Image_Url: string;
     obj: ObjectInt
 }
   const Object: React.FC<ObjProps> = ({obj}) => {
@@ -30,11 +23,7 @@ interface ObjProps {
           <Button variant="secondary"  onClick={ButtonClick}>Подробнее</Button>
         </Card.Body>
       </Card>
-      // <div>
-      //   {obj.ID_Object}
-      //   <img src={obj.Image_Url} alt="" />
-      //   {obj.Name_Obj}
-      // </div>
+
     );
   };
 

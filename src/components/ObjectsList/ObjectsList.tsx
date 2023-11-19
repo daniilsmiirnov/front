@@ -6,49 +6,38 @@ import { Container,  Row, Col  } from "react-bootstrap";
 import NavigationBar from "../Navbar/Navbar";
 import Breadcrumbs from "../Breadcrumbs/breadcrumb";
 import ObjectFilter from "../Filter/filter";
-import {mockObjects} from "../../assets/mockObjects"
+import {mockObjects} from "../../assets/mockObjects";
+import axios from "axios";
 const ObjectsList: React.FC = () => {
   const [objects, setList] = useState<ObjectInt[]>([]);
   const [filteredObjects, setFilteredObjects] = useState<ObjectInt[]>([]);
   const handleFilterChange = (filteredObjects: ObjectInt[]) => {
     setFilteredObjects(filteredObjects);
   };
-  // useEffect(() => {
-  //   console.log("hi");
-  //   fetch("http://127.0.0.1:8000/object/")
-  //     .then((response) => response.json())
-  //     .then((data) => setList(data))
-  //     .catch((error) => console.log(error));
-  // }, []);
+
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/object/")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Failed get data from server");
-        }
-      })
-      .then((data) => {
-        setList(data);
-      })
-      .catch((error) => {
-        console.log(error);
-        setList(mockObjects);
-      });
-  }, []);
+    axios.get("http://127.0.0.1:8000/object/").then(response=>{
+      if (response.status ===200){
+        console.log(response);
+        setList(response.data);
+
+      }
+      else{
+        throw new Error('Failed get data from server');
+      }
+    })
+    .catch(error=>{
+      console.error(error);
+      setList(mockObjects);
+    });
+  },[]);
+
   return (
     <>
       <NavigationBar />
-      <Breadcrumbs />
+      {/* <Breadcrumbs /> */}
       <ObjectFilter objects={objects} onFilterChange={handleFilterChange} />
-      {/* <Navbar bg="dark" variant="dark" >
-        <Navbar.Brand style={{ marginLeft: '50px' }} href="#home">Expedition</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link href="">Home</Nav.Link>
-          <Nav.Link href="">About</Nav.Link>
-        </Nav>
-      </Navbar>*/}
+
       <Container fluid className="bg-secondary">
         <Row style={{ marginLeft: "50px" }}>
           {filteredObjects.map((ob) => (
@@ -57,17 +46,6 @@ const ObjectsList: React.FC = () => {
             </Col>
           ))}
         </Row>
-        {/* {filteredObjects.map((obj) => (
-          <Col sm={4} className="mb-4">
-          <Object obj={obj} key={obj.ID_Object} />
-        </Col>
-        ))} */}
-
-        {/* <Col className="mb-4">
-            {objects.map((ob) => (
-              <Object obj={ob} key={ob.ID_Object} />
-            ))}
-          </Col> */}
       </Container>
     </>
   );

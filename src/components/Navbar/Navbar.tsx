@@ -7,8 +7,8 @@ const NavigationBar = () => {
             <Container>
                 <Navbar.Brand style={{ marginLeft: '50px' }} href="/">Expedition</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="">About</Nav.Link>
+                    <Nav.Link href="/">Главная</Nav.Link>
+                    <Nav.Link href="">Войти</Nav.Link>
                 </Nav>
             </Container>
         </Navbar>
