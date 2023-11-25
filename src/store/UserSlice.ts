@@ -25,9 +25,16 @@ const userSlice = createSlice({
       state.username = action.payload.username;
       state.password = action.payload.password;
     },
+    logout(state){
+        state.Is_Super = false;
+        state.id = -1;
+        state.username = '';
+        state.password = '';
+    },
+
 
   },
 });
 
-export const { login } = userSlice.actions;
+export const { login,logout } = userSlice.actions;
 export default userSlice.reducer;

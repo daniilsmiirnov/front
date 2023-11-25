@@ -5,6 +5,7 @@ import ObjectsList from './components/ObjectsList/ObjectsList';
 import AboutObject from './components/AboutObject/AboutObject';
 import Auth from './components/auth/auth'
 import Register from './components/auth/register'
+import Expeditions from './components/Expeditions/expedition'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
@@ -19,6 +20,7 @@ function App() {
         {/* <Route path="/Main/about/" element={<AboutObject />} /> */}
         <Route path="/auth/" element={<Auth />} />
         <Route path="/register/" element={<Register />} />
+        <Route path="/expeditions/" element={<Expeditions />} />
       </Routes>
     </BrowserRouter>
 

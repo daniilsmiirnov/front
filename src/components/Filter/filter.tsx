@@ -5,7 +5,7 @@ interface ObjectInt {
   Name_Obj: string;
   Region: string;
   Year: number;
-  Opener: string;
+  Opener: string; 
   Status: string;
   Image_Url: string;
 }

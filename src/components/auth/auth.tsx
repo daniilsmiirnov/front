@@ -3,14 +3,13 @@ import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/UserSlice';
-import {  Link} from 'react-router-dom'; 
-import { useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Auth: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const dispatch= useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://127.0.0.1:8000/auth/login/', {
@@ -29,10 +28,10 @@ const Auth: React.FC = () => {
         };
         console.log('data',datauser);
         dispatch(login(datauser));
+        document.cookie = `jwt=${response.data.jwt}; path=/`;
+        console.log(document.cookie);
         console.log('dispatch',dispatch(login(datauser)));
-        // window.location.href = '/Main/';
-        // return <Link to="/Main/" />;
-        history.push('/Main/');
+        navigate('/');
       }
 
     } catch (error) {
