@@ -66,8 +66,8 @@ const Cart: React.FC = () => {
         />
         {/* Добавьте другие поля формы для данных заявки */}
 
-        <Button type="submit" variant="primary">
-          Отправить заявку
+        <Button type="submit" variant="dark">
+          Сформировать заявку
         </Button>
       </form>
     </Container>
