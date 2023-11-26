@@ -4,6 +4,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import axios from 'axios';
 import { logout } from '../../store/UserSlice';
+import { removeFromCart } from '../../store/CartSlice';
 import { Link } from 'react-router-dom';
 
 const NavigationBar = () => {
@@ -12,6 +13,7 @@ const NavigationBar = () => {
     const dispatch = useDispatch();
     const handleLogout = async () => {
         dispatch(logout());
+        dispatch(removeFromCart());
         try {
           const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
           if (jwtTokenCookie) {

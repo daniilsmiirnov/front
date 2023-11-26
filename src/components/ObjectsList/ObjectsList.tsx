@@ -10,16 +10,22 @@ import ObjectFilter1 from "../Filter/filter2";
 import ObjectFilter from "../Filter/filter";
 import {mockObjects} from "../../assets/mockObjects";
 import axios from "axios";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+
 const ObjectsList: React.FC = () => {
+  const expeditions = useSelector((state: RootState) => state.expeditions.expeditions);
   const [objects, setList] = useState<ObjectInt[]>([]);
   const [filteredObjects, setFilteredObjects] = useState<ObjectInt[]>([]);
   const handleFilterChange = (filteredObjects: ObjectInt[]) => {
     setFilteredObjects(filteredObjects);
   };
 
+
   useEffect(() => {
 
     const fetchData = async () => {
+
       try {
         const response = await axios.get<ObjectInt[]>("http://127.0.0.1:8000/object/");
         if (response.status === 200) {
@@ -36,6 +42,7 @@ const ObjectsList: React.FC = () => {
 
     fetchData();
   }, []);
+  
   return (
     <>
       <NavigationBar />

@@ -1,5 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+interface ObjectInt {
+  ID_Object: number;
+  Name_Obj: string;
+  Region: string;
+  Year: number;
+  Opener: string;
+  Status: string;
+  Image_Url: string;
+}
 interface Expedition {
   ID_Expedition: number;
   Name_Exp: string;
@@ -11,7 +19,7 @@ interface Expedition {
   ModeratorId: number | null;
   CreatorId: number | null;
   Describe: string | null;
-  Objects: number[]; // Массив идентификаторов объектов
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
   Archive: string | null;
 }
 
@@ -30,14 +38,9 @@ const expeditionsSlice = createSlice({
     setExpeditions(state, action: PayloadAction<Expedition[]>) {
       state.expeditions = action.payload;
     },
-    addExpedition(state, action: PayloadAction<Expedition>) {
-      state.expeditions.push(action.payload);
-    },
-    removeExpedition(state, action: PayloadAction<number>) {
-      state.expeditions = state.expeditions.filter(expedition => expedition.ID_Expedition !== action.payload);
-    },
+
   },
 });
 
-export const { setExpeditions, addExpedition, removeExpedition } = expeditionsSlice.actions;
+export const { setExpeditions} = expeditionsSlice.actions;
 export default expeditionsSlice.reducer;

@@ -4,8 +4,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface UserState {
   Is_Super: boolean;
   id: number;
-  username: string; // добавленное поле username
-  password: string; // добавленное поле password
+  username: string;
+  password: string;
 }
 
 const initialState: UserState = {
@@ -24,7 +24,7 @@ const userSlice = createSlice({
       state.id = action.payload.id;
       state.username = action.payload.username;
       state.password = action.payload.password;
-      
+
     },
     logout(state){
         state.Is_Super = false;

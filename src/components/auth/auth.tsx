@@ -5,7 +5,31 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/UserSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { setExpeditions } from '../../store/ExpeditionSlice';
-import {setExpeditionsDraft} from '../../store/DraftCartSlice';
+import { addToCart } from '../../store/CartSlice';
+export interface ObjectInt {
+  ID_Object: number;
+  Name_Obj: string;
+  Region: string;
+  Year: number;
+  Opener: string;
+  Status: string;
+  Image_Url: string;
+}
+interface Expedition {
+  ID_Expedition: number;
+  Name_Exp: string;
+  DateStart: string;
+  DateEnd: string | null;
+  DateApproving: string | null;
+  Status: string;
+  Leader: string;
+  ModeratorId: number | null;
+  CreatorId: number | null;
+  Describe: string | null;
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
+  Archive: string | null;
+}
+
 const AxiosExpeditions = async (token:any) => {
   try {
 
@@ -51,17 +75,18 @@ const Auth: React.FC = () => {
         };
         dispatch(login(datauser));
         document.cookie = `jwt=${response.data.jwt}; path=/`;
-        const expeditionsData = await AxiosExpeditions(response.data.jwt);
+        
+        const expeditionsData: Expedition[] = await AxiosExpeditions(response.data.jwt);
         
         console.log('ExpeditionData:',expeditionsData);
-        const draft = expeditionsData.filter(
-          (expedition: any) => expedition.Status == 'in'
-        );
-        console.log('Expeditions with status "in":', draft);
-
+        const expeditionIn = expeditionsData.find(expedition => expedition.Status === 'in');
         dispatch(setExpeditions(expeditionsData));
-        dispatch(setExpeditionsDraft(draft));
-        // navigate('/');
+        if (expeditionIn) {
+          console.log('cart:',expeditionIn);
+          dispatch(addToCart(expeditionIn));
+        }
+  
+        navigate('/');
       }
 
     } catch (error) {
