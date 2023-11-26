@@ -4,12 +4,35 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/UserSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import { setExpeditions } from '../../store/ExpeditionSlice';
+import {setExpeditionsDraft} from '../../store/DraftCartSlice';
+const AxiosExpeditions = async (token:any) => {
+  try {
+
+    const response = await axios.get(
+      'http://127.0.0.1:8000/expedition/',
+      {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    console.log('exps:',response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при получении данных экспедиций:', error);
+    throw error;
+  }
+};
 const Auth: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const dispatch= useDispatch();
   const navigate = useNavigate();
+
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://127.0.0.1:8000/auth/login/', {
@@ -26,12 +49,19 @@ const Auth: React.FC = () => {
           username: username,
           password: password
         };
-        console.log('data',datauser);
         dispatch(login(datauser));
         document.cookie = `jwt=${response.data.jwt}; path=/`;
-        console.log(document.cookie);
-        console.log('dispatch',dispatch(login(datauser)));
-        navigate('/');
+        const expeditionsData = await AxiosExpeditions(response.data.jwt);
+        
+        console.log('ExpeditionData:',expeditionsData);
+        const draft = expeditionsData.filter(
+          (expedition: any) => expedition.Status == 'in'
+        );
+        console.log('Expeditions with status "in":', draft);
+
+        dispatch(setExpeditions(expeditionsData));
+        dispatch(setExpeditionsDraft(draft));
+        // navigate('/');
       }
 
     } catch (error) {

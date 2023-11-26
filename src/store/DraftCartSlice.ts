@@ -40,8 +40,10 @@ const draftCartSlice = createSlice({
     resetExpeditionData(state) {
       return initialState;
     },
+    setExpeditionsDraft(state, action: PayloadAction<ExpeditionState[]>) {
+      },
   },
 });
 
-export const { setExpeditionData, resetExpeditionData } = draftCartSlice.actions;
+export const { setExpeditionData, resetExpeditionData, setExpeditionsDraft } = draftCartSlice.actions;
 export default draftCartSlice.reducer;
