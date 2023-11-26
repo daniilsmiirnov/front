@@ -1,34 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { ExpeditionInt } from '../../Models/expedition';
-import ExpeditionCard from './exp_card';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { Container, Row, Col } from 'react-bootstrap';
+import ExpeditionCard from './exp_card'; 
+import NavigationBar from "../Navbar/Navbar";
+
+interface ObjectInt {
+  ID_Object: number;
+  Name_Obj: string;
+  Region: string;
+  Year: number;
+  Opener: string;
+  Status: string;
+  Image_Url: string;
+}
+
+interface Expedition {
+  ID_Expedition: number;
+  Name_Exp: string;
+  DateStart: string;
+  DateEnd: string | null;
+  DateApproving: string | null;
+  Status: string;
+  Leader: string;
+  ModeratorId: number | null;
+  CreatorId: number | null;
+  Describe: string | null;
+  Objects: ObjectInt[];
+  Archive: string | null;
+}
 
 const Expeditions: React.FC = () => {
-  const [expeditions, setExpeditions] = useState<ExpeditionInt[]>([]);
-
-  useEffect(() => {
-    const fetchExpeditions = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/expedition/');
-        console.log(response.data)
-        setExpeditions(response.data);
-      } catch (error) {
-        console.error('Ошибка получения экспедиций:', error);
-      }
-    };
-
-    fetchExpeditions();
-  }, []);
+  const expedition = useSelector((state: RootState) => state.cart.expedition);
+  const userExpeditions = useSelector((state: RootState) => state.expeditions.expeditions);
 
   return (
-    <div className="all-expeditions">
-      <h1>Все экспедиции</h1>
-      <div className="expeditions-list">
-        {expeditions.map((expedition) => (
-          <ExpeditionCard key={expedition.ID_Expedition} exp={expedition} />
+    <>
+    <NavigationBar />
+    <Container fluid className="bg-secondary" style={{ minHeight: '100vh' }}>
+      {expedition ? (
+        <>
+
+          <Row>
+            <Col>Название: {expedition.Name_Exp}</Col>
+          </Row>
+        </>
+      ) : (
+        <Row>
+          <Col>Корзина пуста</Col>
+        </Row>
+      )}
+
+
+      <Row>
+        {userExpeditions.map((expedition) => (
+          <Col key={expedition.ID_Expedition} sm={4} style={{ marginBottom: '15px' }}>
+            <ExpeditionCard expedition={expedition} />
+          </Col>
         ))}
-      </div>
-    </div>
+      </Row>
+    </Container>
+    </>
   );
 };
 

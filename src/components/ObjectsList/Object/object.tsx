@@ -1,5 +1,4 @@
 import React from 'react';
-import { ObjectInt } from '../../../Models/object';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from "react-router-dom";
@@ -7,13 +6,39 @@ import defaultimg from '../../../assets/defimg.jpg'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import axios from 'axios';
-import { compose } from 'redux';
+import { useDispatch } from 'react-redux';
+import { setExpeditions } from '../../../store/ExpeditionSlice';
+import { addToCart } from '../../../store/CartSlice';
 interface ObjProps {
     obj: ObjectInt
+}
+export interface ObjectInt {
+  ID_Object: number;
+  Name_Obj: string;
+  Region: string;
+  Year: number;
+  Opener: string;
+  Status: string;
+  Image_Url: string;
+}
+interface Expedition {
+  ID_Expedition: number;
+  Name_Exp: string;
+  DateStart: string;
+  DateEnd: string | null;
+  DateApproving: string | null;
+  Status: string;
+  Leader: string;
+  ModeratorId: number | null;
+  CreatorId: number | null;
+  Describe: string | null;
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
+  Archive: string | null;
 }
   const Object: React.FC<ObjProps> = ({obj}) => {
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user);
+    const dispatch= useDispatch();
     const addToExpedition = async () => {
       try {
         const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
@@ -33,50 +58,39 @@ interface ObjProps {
               },
             }
           );
-    
-          console.log(response);
+          console.log("1",response);
+          const responseExp = await axios.get(
+            'http://127.0.0.1:8000/expedition/',
+            {
+              withCredentials: true,
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          if (responseExp.status===200){
+            const expeditionsData: Expedition[] = Array.isArray(responseExp.data) ? responseExp.data : [];
+            const expeditionIn = expeditionsData.find(expedition => expedition.Status === 'in');
+            dispatch(setExpeditions(expeditionsData));
+            if (expeditionIn) {
+              console.log('cart:',expeditionIn);
+              dispatch(addToCart(expeditionIn));
+            }
+          }
+          console.log(responseExp);
+          
         } else {
           console.error('Токен JWT отсутствует в куки.');
         }
+
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
       }
+      
     };
-    // const addToExpedition = async () => {
-    //   try {
-    //     console.log('cooki:', document.cookie);
-    //     const jwtCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
-    //     if (jwtCookie) {
-    //       const token = jwtCookie.split('=')[1];
-          
-    //       const response = await axios.post(
-    //         `http://127.0.0.1:8000/object/${obj.ID_Object}/`, 
-    //         null, 
-    //         {
-    //           headers: {
-    //             Authorization: `jwt=${token}`,
-    //           },
-    //         }
-    //       );
-    //       console.log(response);
-    //     } else {
-    //       throw new Error('jwtToken cookie not found');
-    //     }
-    
-    //     // const response = await axios.post(
-    //     //   `http://127.0.0.1:8000/object/${obj.ID_Object}/`);
-    //     // //   {
-    //     // //     headers: {
-    //     // //       Authorization: `Bearer ${token}`, 
-    //     // //     },
-    //     // //   }
-    //     // // const response = await axios.post(`http://127.0.0.1:8000/object/${obj.ID_Object}/`);
-    //     // console.log(response)
-    //   } catch (error) {
-    //     // console.log(response)
-    //     console.error('ошибка:',error)
-    //   }
-    // };
+
+
     const ButtonClick = () => {
       navigate("about/", {state: { object: obj}});
     };

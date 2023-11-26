@@ -1,33 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { ExpeditionInt } from '../../Models/expedition';
+import React from 'react';
+import { Card, Button } from 'react-bootstrap';
+// Импортируйте интерфейс Expedition из вашего файла
 
-
-interface ExpProps {
-    exp: ExpeditionInt
+interface ObjectInt {
+  ID_Object: number;
+  Name_Obj: string;
+  Region: string;
+  Year: number;
+  Opener: string;
+  Status: string;
+  Image_Url: string;
 }
-interface ExpeditionCardProps {
-  exp: ExpeditionInt;
+interface Expedition {
+  ID_Expedition: number;
+  Name_Exp: string;
+  DateStart: string;
+  DateEnd: string | null;
+  DateApproving: string | null;
+  Status: string;
+  Leader: string;
+  ModeratorId: number | null;
+  CreatorId: number | null;
+  Describe: string | null;
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
+  Archive: string | null;
+}
+interface Props {
+  expedition: Expedition;
 }
 
-const ExpeditionCard: React.FC<ExpeditionCardProps> = ({ exp }) => {
+const ExpeditionCard: React.FC<Props> = ({ expedition }) => {
   return (
-    <div className="expedition-card">
-      <h2>{exp.Name_Exp}</h2>
-      <p>ID экспедиции: {exp.ID_Expedition}</p>
-      <p>Описание: {exp.Describe}</p>
-      <p>Дата начала: {exp.DateStart}</p>
-      <p>Дата завершения: {exp.DateEnd}</p>
-      <p>Дата утверждения: {exp.DateApproving}</p>
-      <p>Статус: {exp.Status}</p>
-      <p>Лидер: {exp.Leader}</p>
-      <p>Модератор: {exp.Moderator}</p>
-      <p>ID создателя: {exp.ID_Creator}</p>
-      <p>Объекты: {exp.Objects}</p>
-      {/* Добавьте отображение других полей экспедиции */}
-    </div>
+    <Card>
+      <Card.Body>
+        <Card.Title>{expedition.Name_Exp}</Card.Title>
+        <Card.Text>Дата создания: {expedition.DateStart}</Card.Text>
+        <Card.Text>Дата окончания: {expedition.DateEnd}</Card.Text>
+        <Card.Text>Лидер: {expedition.Leader}</Card.Text>
+        <Card.Text>
+          Географические объекты:
+          <ul>
+            {expedition.Objects.map((object) => (
+              <li key={object.ID_Object}>
+                {object.Name_Obj} - {object.Region} ({object.Year})
+              </li>
+            ))}
+          </ul>
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
 };
 
 export default ExpeditionCard;
-
