@@ -17,7 +17,7 @@ const ObjectsList: React.FC = () => {
   const expeditions = useSelector((state: RootState) => state.expeditions.expeditions);
   const [objects, setList] = useState<ObjectInt[]>([]);
   const [filteredObjects, setFilteredObjects] = useState<ObjectInt[]>([]);
-  const handleFilterChange = (filteredObjects: ObjectInt[]) => {
+  const handleFilterChange = async (filteredObjects: ObjectInt[]) => {
     setFilteredObjects(filteredObjects);
   };
 
@@ -47,8 +47,8 @@ const ObjectsList: React.FC = () => {
     <>
       <NavigationBar />
       {/* <Breadcrumbs /> */}
-      <ObjectFilter objects={objects} onFilterChange={handleFilterChange} />
-      
+      {/* <ObjectFilter objects={objects} onFilterChange={handleFilterChange} /> */}
+      <ObjectFilter1 onFilterChange={handleFilterChange} />
 
       <Container fluid className="bg-secondary">
       <Row style={{ marginLeft: "5px" }}>

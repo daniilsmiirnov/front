@@ -1,59 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
+import { ObjectInt } from '../../Models/object';
+import { Form, Button } from 'react-bootstrap';
+import { RootState } from '../../store/store';
+import { setFilterName, setFilterYear, setFilterOpener } from '../../store/FilterObjSlice';
 
 interface FilterProps {
   onFilterChange: (filteredObjects: ObjectInt[]) => void;
 }
 
-interface ObjectInt {
-  ID_Object: number;
-  Name_Obj: string;
-  Region: string;
-  Year: number;
-  Opener: string;
-  Status: string;
-  Image_Url: string;
-}
-
-const ObjectFilter: React.FC<FilterProps> = ({ onFilterChange }) => {
-  const [name, setName] = useState<string>('');
-  const [year, setYear] = useState<string>('');
-  const [opener, setOpener] = useState<string>('');
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-
-  const handleYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setYear(event.target.value);
-  };
-
-  const handleOpenerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOpener(event.target.value);
-  };
+const ObjectFilter1: React.FC<FilterProps> = ({ onFilterChange }) => {
+  const filterName = useSelector((state: RootState) => state.filterObj.filterName);
+  const filterYear = useSelector((state: RootState) => state.filterObj.filterYear);
+  const filterOpener = useSelector((state: RootState) => state.filterObj.filterOpener);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchFilteredObjects = async () => {
-      try {
-        const response: AxiosResponse<ObjectInt[]> = await axios.get<ObjectInt[]>('http://127.0.0.1:8000/object/', {
-          params: { name, year, opener },
-        });
-        onFilterChange(response.data);
-      } catch (error) {
-        console.error('Ошибка при получении отфильтрованных объектов:', error);
-      }
-    };
+    handleFilterChange();
+  }, [filterName, filterYear, filterOpener]);
 
-    fetchFilteredObjects();
-  }, [name, year, opener, onFilterChange]);
+  const handleFilterChange = async () => {
+    try {
+      const response: AxiosResponse<ObjectInt[]> = await axios.get('http://127.0.0.1:8000/object/', {
+        params: {
+          name: filterName,
+          year: filterYear,
+          opener: filterOpener,
+        },
+      });
+
+      if (response.status === 200) {
+        onFilterChange(response.data);
+      } else {
+        throw new Error('Failed to get filtered data from the server');
+      }
+    } catch (error) {
+      console.error(error);
+      // Handle error (e.g., set default objects or show an error message)
+    }
+  };
+
+
 
   return (
-    <div className='bg-secondary'>
-      <input type="text" placeholder="Поиск по названию" value={name} onChange={handleNameChange} />
-      <input type="text" placeholder="Фильтр по году" value={year} onChange={handleYearChange} />
-      <input type="text" placeholder="Фильтр по открывшему" value={opener} onChange={handleOpenerChange} />
+    <div className="bg-secondary">
+      <Form>
+        <Form.Control
+          type="text"
+          placeholder="Название объекта"
+          value={filterName}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFilterName(e.target.value))}
+        />
+        <Form.Control
+          type="text"
+          placeholder="Год"
+          value={filterYear}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFilterYear(e.target.value))}
+        />
+        <Form.Control
+          type="text"
+          placeholder="Лидер"
+          value={filterOpener}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFilterOpener(e.target.value))}
+        />
+        <Button variant="dark" type="button" onClick={handleFilterChange}>
+          Поиск
+        </Button>
+
+      </Form>
     </div>
   );
 };
 
-export default ObjectFilter;
+export default ObjectFilter1;
