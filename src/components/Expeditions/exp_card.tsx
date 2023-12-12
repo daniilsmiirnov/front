@@ -37,7 +37,17 @@ interface Expedition {
 interface Props {
   expedition: Expedition;
 }
+const getStatusText = (statusCode: string): string => {
+  const statusMap: { [key: string]: string } = {
+    in: 'Введён',
+    wo: 'В работе',
+    en: 'Завершён',
+    ca: 'Отменён',
+    de: 'Удалён',
+  };
 
+  return statusMap[statusCode] || 'Неизвестный статус';
+};
 const ExpeditionCard: React.FC<Props> = ({ expedition }) => {
   return (
     <Card>
@@ -46,16 +56,17 @@ const ExpeditionCard: React.FC<Props> = ({ expedition }) => {
         <Card.Text>Дата создания: {formattedDate(expedition.DateStart)}</Card.Text>
         <Card.Text>Дата окончания: {formattedDate(expedition.DateEnd || '')}</Card.Text>
         <Card.Text>Лидер: {expedition.Leader}</Card.Text>
+        <Card.Text>Статус: {getStatusText(expedition.Status)}</Card.Text>
         <Card.Text>
-          Географические объекты:
-          <ul>
-            {expedition.Objects.map((object) => (
-              <li key={object.ID_Object}>
-                {object.Name_Obj} - {object.Region} ({object.Year})
-              </li>
-            ))}
-          </ul>
-        </Card.Text>
+        Географические объекты:
+        <ul>
+          {expedition.Objects.map((object) => (
+            <li key={object.ID_Object}>
+               {object.Name_Obj}
+            </li>
+          ))}
+        </ul>
+      </Card.Text>
       </Card.Body>
     </Card>
   );

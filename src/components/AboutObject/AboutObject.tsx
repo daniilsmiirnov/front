@@ -3,7 +3,7 @@
     import { Container,  Card, ListGroup } from "react-bootstrap";
     import NavigationBar from "../Navbar/Navbar";
     import { useLocation } from "react-router-dom";
-    import Breadcrumbs from '../Breadcrumbs/breadcrumb';
+    import Breadcrumbs from '../Breadcrumbs/bread';
 
 
     const AboutObject: React.FC = () => {
@@ -14,6 +14,7 @@
         return (
             <>
                 <NavigationBar />
+                <Breadcrumbs separator="/" objectName={new_obj.Name_Obj} />
                 {/* <Breadcrumbs /> */}
                 <Container fluid style={{ height: '40rem'}} className="bg-secondary d-flex align-items-center justify-content-center" >
                     <Card style={{ width: '30rem',}}>

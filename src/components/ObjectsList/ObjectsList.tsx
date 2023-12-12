@@ -10,7 +10,7 @@ import {mockObjects} from "../../assets/mockObjects";
 import axios from "axios";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-
+import Breadcrumbs from '../Breadcrumbs/bread';     
 const ObjectsList: React.FC = () => {
   const expeditions = useSelector((state: RootState) => state.expeditions.expeditions);
   const [objects, setList] = useState<ObjectInt[]>([]);
@@ -46,7 +46,11 @@ const ObjectsList: React.FC = () => {
       <NavigationBar />
 
       <ObjectFilter1 onFilterChange={handleFilterChange} />
-
+      <Row>
+          <Col>
+            <Breadcrumbs separator="/" />
+          </Col>
+        </Row>
       <Container fluid className="bg-secondary">
       <Row style={{ marginLeft: "5px" }}>
           <Col sm={9}>

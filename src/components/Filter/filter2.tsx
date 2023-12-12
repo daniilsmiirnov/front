@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import { ObjectInt } from '../../Models/object';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { RootState } from '../../store/store';
 import { setFilterName, setFilterYear, setFilterOpener } from '../../store/FilterObjSlice';
 
@@ -37,37 +37,33 @@ const ObjectFilter1: React.FC<FilterProps> = ({ onFilterChange }) => {
       }
     } catch (error) {
       console.error(error);
-
     }
   };
 
-
-
   return (
-    <div className="bg-secondary">
-      <Form>
+    <div className="bg-secondary text-center py-3">
+      <Form className="d-flex flex-column align-items-center">
         <Form.Control
+          className="mb-2 w-50 text-center"
           type="text"
           placeholder="Название объекта"
           value={filterName}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFilterName(e.target.value))}
         />
         <Form.Control
+          className="mb-2 w-50 text-center"
           type="text"
           placeholder="Год"
           value={filterYear}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFilterYear(e.target.value))}
         />
         <Form.Control
+          className="mb-2 w-50 text-center"
           type="text"
           placeholder="Лидер"
           value={filterOpener}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFilterOpener(e.target.value))}
         />
-        {/* <Button variant="dark" type="button" onClick={handleFilterChange}>
-          Поиск
-        </Button> */}
-
       </Form>
     </div>
   );

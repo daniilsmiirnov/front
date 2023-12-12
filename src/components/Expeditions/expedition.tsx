@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import ExpeditionCard from './exp_card'; 
+// import ExpeditionCard from './exp_card'; 
 import NavigationBar from "../Navbar/Navbar";
 import { addToCart, removeFromCart } from '../../store/CartSlice';
 import { setExpeditions } from '../../store/ExpeditionSlice';
@@ -207,12 +207,12 @@ const Expeditions: React.FC = () => {
   return (
     <>
       <NavigationBar />
-      <Container fluid className="bg-secondary" style={{ minHeight: '100vh' }}>
+      <Container fluid className="bg-secondary d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
         {expedition ? (
           <Row style={{ }}>
             <Col>
               <Form onSubmit={handleFormSubmit}>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formName" className="mb-3">
                   <Form.Control
                     type="text"
                     defaultValue={formData?.Name_Exp || ''}
@@ -220,38 +220,42 @@ const Expeditions: React.FC = () => {
                     
                   />
                 </Form.Group>
-                <Form.Group controlId="formLeader">
+                <Form.Group controlId="formLeader" className="mb-3">
                   <Form.Control
                     type="text"
                     defaultValue={formData?.Leader || ''}
                     onChange={handleLeaderChange}
                   />
                 </Form.Group>
-                <Form.Group controlId="formDescribe">
+                <Form.Group controlId="formDescribe" className="mb-3">
                   <Form.Control
                     type="text"
                     defaultValue={formData?.Describe || ''}
                     onChange={handleDescribeChange}
                   />
                 </Form.Group>
-                <Form.Group controlId="formObjects">
-                  <h4>Объекты</h4>
-                  {formData?.Objects.map((object) => (
-                    <div key={object.ID_Object} style={{ marginBottom: '10px' }}>
-                      {object.Name_Obj} - {object.Region} ({object.Year})
-                      <Button
-                        variant="dark"
-                        size="sm"
-                        style={{ marginLeft: "10px" }}
-                        onClick={() => {
-                          handleDeleteObject(expedition?.ID_Expedition || 0, object.ID_Object);
-                        }}
-                      >
-                        Удалить
-                      </Button>
+                <Form.Group controlId="formObjects" className="mb-2">
+                    <h4>Объекты</h4>
+                    <div className="d-flex flex-wrap">
+                      {formData?.Objects.map((object) => (
+                        <div key={object.ID_Object} className="card m-2" style={{ width: '150px' }}>
+                          <div className="card-body">
+                            <h5 className="card-title">{object.Name_Obj}</h5>
+                            <h6 className="card-subtitle mb-2 text-muted">{object.Region} ({object.Year})</h6>
+                            <Button
+                              variant="dark"
+                              size="sm"
+                              onClick={() => {
+                                handleDeleteObject(expedition?.ID_Expedition || 0, object.ID_Object);
+                              }}
+                            >
+                              Удалить
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </Form.Group>
+                  </Form.Group>
                 <Button variant="dark" style={{ marginTop: "15px" }} type="submit">
                   Изменить экспедицию
                 </Button>
@@ -267,13 +271,6 @@ const Expeditions: React.FC = () => {
           </Row>
         )}
 
-        <Row>
-          {userExpeditions.map((expedition) => (
-            <Col key={expedition.ID_Expedition} sm={4} style={{ marginBottom: '15px', marginTop: "50px" }}>
-              <ExpeditionCard expedition={expedition} />
-            </Col>
-          ))}
-        </Row>
       </Container>
     </>
   );

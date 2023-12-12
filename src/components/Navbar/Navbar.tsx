@@ -54,7 +54,7 @@ const NavigationBar = () => {
           )}
           {user.Is_Super === false && user.id !=-1 && (
             <>
-              <Nav.Link as={Link} to="/expeditions/">Экспедиции</Nav.Link>
+              <Nav.Link as={Link} to="/expedition_history/">Экспедиции</Nav.Link>
               <Nav.Link as={Link} to="/">Главная</Nav.Link>
               <Nav.Link onClick={handleLogout}>Выйти</Nav.Link>
               

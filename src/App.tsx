@@ -6,6 +6,7 @@ import AboutObject from './components/AboutObject/AboutObject';
 import Auth from './components/auth/auth'
 import Register from './components/auth/register'
 import Expeditions from './components/Expeditions/expedition'
+import ExpHistory from './components/Expeditions/exp_history';
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/auth/" element={<Auth />} />
         <Route path="/register/" element={<Register />} />
         <Route path="/expeditions/" element={<Expeditions />} />
+        <Route path="/expedition_history/" element={<ExpHistory />} />
       </Routes>
     </BrowserRouter>
 
