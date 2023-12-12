@@ -44,7 +44,7 @@ const NavigationBar = () => {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand style={{ marginLeft: '50px' }} as={Link} to="/">Expedition</Navbar.Brand>
+                <Navbar.Brand style={{ marginLeft: '50px' }} as={Link} to="/">Экспедиции</Navbar.Brand>
                 <Nav className="mr-auto">
           {user.Is_Super === false && user.id === -1 && (
             <>

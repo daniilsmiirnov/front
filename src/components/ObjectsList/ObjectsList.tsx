@@ -5,9 +5,7 @@ import { ObjectInt } from "../../Models/object";
 import { Container,  Row, Col,Button  } from "react-bootstrap";
 import NavigationBar from "../Navbar/Navbar";
 import Cart from "../Cart/cart"
-import Breadcrumbs from "../Breadcrumbs/breadcrumb";
 import ObjectFilter1 from "../Filter/filter2";
-import ObjectFilter from "../Filter/filter";
 import {mockObjects} from "../../assets/mockObjects";
 import axios from "axios";
 import { useSelector } from 'react-redux';
@@ -46,8 +44,7 @@ const ObjectsList: React.FC = () => {
   return (
     <>
       <NavigationBar />
-      {/* <Breadcrumbs /> */}
-      {/* <ObjectFilter objects={objects} onFilterChange={handleFilterChange} /> */}
+
       <ObjectFilter1 onFilterChange={handleFilterChange} />
 
       <Container fluid className="bg-secondary">

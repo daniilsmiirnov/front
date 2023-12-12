@@ -37,7 +37,7 @@ const ObjectFilter1: React.FC<FilterProps> = ({ onFilterChange }) => {
       }
     } catch (error) {
       console.error(error);
-      // Handle error (e.g., set default objects or show an error message)
+
     }
   };
 
@@ -64,9 +64,9 @@ const ObjectFilter1: React.FC<FilterProps> = ({ onFilterChange }) => {
           value={filterOpener}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFilterOpener(e.target.value))}
         />
-        <Button variant="dark" type="button" onClick={handleFilterChange}>
+        {/* <Button variant="dark" type="button" onClick={handleFilterChange}>
           Поиск
-        </Button>
+        </Button> */}
 
       </Form>
     </div>
