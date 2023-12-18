@@ -25,7 +25,7 @@ const Cart: React.FC = () => {
           )}
         </Card.Body>
       </Card>
-      <Card bg="light" text="dark" border="white">
+      {/* <Card bg="light" text="dark" border="white">
       <Card.Body>
           <h3>Добавленные объекты :</h3>
           {expedition && expedition.Objects.length > 0 ? (
@@ -40,7 +40,7 @@ const Cart: React.FC = () => {
             <p>Список объектов пуст</p>
           )}
         </Card.Body>
-      </Card>
+      </Card> */}
     </Container>
   );
 };

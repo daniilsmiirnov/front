@@ -7,6 +7,7 @@ import Auth from './components/auth/auth'
 import Register from './components/auth/register'
 import Expeditions from './components/Expeditions/expedition'
 import ExpHistory from './components/Expeditions/exp_history';
+import SingleExpedition from './components/Expeditions/singelExp'; 
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
@@ -23,6 +24,8 @@ function App() {
         <Route path="/register/" element={<Register />} />
         <Route path="/expeditions/" element={<Expeditions />} />
         <Route path="/expedition_history/" element={<ExpHistory />} />
+        <Route path="/expedition/:id" element={<SingleExpedition />} />
+
       </Routes>
     </BrowserRouter>
 

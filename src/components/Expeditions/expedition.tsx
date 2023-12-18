@@ -7,6 +7,7 @@ import NavigationBar from "../Navbar/Navbar";
 import { addToCart, removeFromCart } from '../../store/CartSlice';
 import { setExpeditions } from '../../store/ExpeditionSlice';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface ObjectInt {
   ID_Object: number;
@@ -33,17 +34,61 @@ interface Expedition {
   Archive: string | null;
 }
 
+
 const Expeditions: React.FC = () => {
   const expedition = useSelector((state: RootState) => state.cart.expedition);
   const userExpeditions = useSelector((state: RootState) => state.expeditions.expeditions);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<Expedition | null>(expedition || null);
+  const navigate = useNavigate();
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedFormData = { ...formData };
     updatedFormData.Name_Exp = e.target.value;
     setFormData(updatedFormData);
   };
-
+  const deleteExpedition = async (expeditionId: number) => {
+    try {
+      const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+      if (jwtTokenCookie) {
+        const token = jwtTokenCookie.split('=')[1];
+        const response = await axios.delete(
+          `http://127.0.0.1:8000/expedition/${expeditionId}/`,
+          {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+  
+        if (response.status === 200) {
+          const responseExp = await axios.get(
+            'http://127.0.0.1:8000/expedition/',
+            {
+              withCredentials: true,
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          if (responseExp.status === 200) {
+            const expeditionsData: Expedition[] = Array.isArray(responseExp.data) ? responseExp.data : [];
+            dispatch(setExpeditions(expeditionsData));
+            console.log(1)
+            dispatch(removeFromCart());
+            console.log(2)
+            navigate('/');
+          }
+        } else {
+          throw new Error('Ошибка при удалении экспедиции');
+        }
+      }
+    } catch (error) {
+      console.error('Произошла ошибка:', error);
+    }
+  };
   const handleLeaderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedFormData = { ...formData };
     updatedFormData.Leader = e.target.value;
@@ -54,6 +99,11 @@ const Expeditions: React.FC = () => {
     const updatedFormData = { ...formData };
     updatedFormData.Describe = e.target.value;
     setFormData(updatedFormData);
+  };
+  const handleDeleteExpedition = () => {
+    if (expedition?.ID_Expedition) {
+      deleteExpedition(expedition.ID_Expedition);
+    }
   };
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -193,6 +243,7 @@ const Expeditions: React.FC = () => {
             console.log('cart:',expeditionIn);
             dispatch(removeFromCart());
             console.log('cart2:',expeditionIn);
+            navigate('/');
             
           }
           console.log('Данные успешно получены');
@@ -208,16 +259,16 @@ const Expeditions: React.FC = () => {
     <>
       <NavigationBar />
       <Container fluid className="bg-secondary d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-        {expedition ? (
-          <Row style={{ }}>
+      <Col md={4}></Col>
+        <Col md={4}>
+          <Row className="justify-content-center">
             <Col>
               <Form onSubmit={handleFormSubmit}>
-              <Form.Group controlId="formName" className="mb-3">
+                <Form.Group controlId="formName" className="mb-3">
                   <Form.Control
                     type="text"
                     defaultValue={formData?.Name_Exp || ''}
                     onChange={handleNameChange}
-                    
                   />
                 </Form.Group>
                 <Form.Group controlId="formLeader" className="mb-3">
@@ -234,43 +285,50 @@ const Expeditions: React.FC = () => {
                     onChange={handleDescribeChange}
                   />
                 </Form.Group>
-                <Form.Group controlId="formObjects" className="mb-2">
-                    <h4>Объекты</h4>
-                    <div className="d-flex flex-wrap">
-                      {formData?.Objects.map((object) => (
-                        <div key={object.ID_Object} className="card m-2" style={{ width: '150px' }}>
-                          <div className="card-body">
-                            <h5 className="card-title">{object.Name_Obj}</h5>
-                            <h6 className="card-subtitle mb-2 text-muted">{object.Region} ({object.Year})</h6>
-                            <Button
-                              variant="dark"
-                              size="sm"
-                              onClick={() => {
-                                handleDeleteObject(expedition?.ID_Expedition || 0, object.ID_Object);
-                              }}
-                            >
-                              Удалить
-                            </Button>
-                          </div>
+                <Form.Group controlId="formObjects" className="mb-2  text-center">
+                  <h4>Объекты</h4>
+                  <div className="d-flex flex-column">
+                    {formData?.Objects.map((object) => (
+                      <div key={object.ID_Object} className="card mb-3">
+                        <img src={object.Image_Url} className="card-img-top" alt={object.Name_Obj} style={{ maxHeight: '200px', objectFit: 'cover' }} />
+                        <div className="card-body  text-center">
+                          <h5 className="card-title  text-center">{object.Name_Obj}</h5>
+                          <h6 className="card-subtitle mb-2 text-muted  text-center">{object.Region} ({object.Year})</h6>
+                          <Button
+                            variant="dark"
+                            size="sm"
+                            onClick={() => {
+                              handleDeleteObject(expedition?.ID_Expedition || 0, object.ID_Object);
+                            }}
+                          >
+                            Удалить
+                          </Button>
                         </div>
-                      ))}
-                    </div>
-                  </Form.Group>
-                <Button variant="dark" style={{ marginTop: "15px" }} type="submit">
-                  Изменить экспедицию
-                </Button>
-                <Button variant="dark" style={{ marginTop: "15px", marginLeft:"15px" }} onClick={handleFormExpedition}>
-                  Сформировать экспедицию
-                </Button>
+                      </div>
+                    ))}
+                  </div>
+                </Form.Group>
               </Form>
             </Col>
           </Row>
-        ) : (
-          <Row>
-            <Col>Корзина пуста</Col>
-          </Row>
-        )}
-
+        </Col>
+        <Col md={4} className="d-flex flex-column align-items-center justify-content-start">
+          <div className="mt-3 mb-auto">
+            <Button variant="dark" type="submit" onClick={handleFormSubmit}>
+              Изменить экспедицию
+            </Button>
+          </div>
+          <div className="mt-3">
+            <Button variant="dark" onClick={handleFormExpedition}>
+              Сформировать экспедицию
+            </Button>
+          </div>
+          <div className="mt-3">
+            <Button variant="dark" onClick={handleDeleteExpedition}>
+              Удалить
+            </Button>
+          </div>
+        </Col>
       </Container>
     </>
   );

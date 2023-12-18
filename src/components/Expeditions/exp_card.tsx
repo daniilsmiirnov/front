@@ -57,6 +57,7 @@ const ExpeditionCard: React.FC<Props> = ({ expedition }) => {
         <Card.Text>Дата окончания: {formattedDate(expedition.DateEnd || '')}</Card.Text>
         <Card.Text>Лидер: {expedition.Leader}</Card.Text>
         <Card.Text>Статус: {getStatusText(expedition.Status)}</Card.Text>
+        <Card.Text>Архив: {expedition.Archive}</Card.Text>
         <Card.Text>
         Географические объекты:
         <ul>
