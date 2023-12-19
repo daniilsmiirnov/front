@@ -8,7 +8,7 @@ import { addToCart, removeFromCart } from '../../store/CartSlice';
 import { setExpeditions } from '../../store/ExpeditionSlice';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useParams } from 'react-router-dom';
 interface ObjectInt {
   ID_Object: number;
   Name_Obj: string;
@@ -39,14 +39,19 @@ const Expeditions: React.FC = () => {
   const expedition = useSelector((state: RootState) => state.cart.expedition);
   const userExpeditions = useSelector((state: RootState) => state.expeditions.expeditions);
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState<Expedition | null>(expedition || null);
+  
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const expeditions = useSelector((state: RootState) => state.expeditions.expeditions);
+  const expeditionn = expeditions.find(exp => exp.ID_Expedition.toString() === id);
+  const [formData, setFormData] = useState<Expedition | null>(expeditionn || null);
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedFormData = { ...formData };
     updatedFormData.Name_Exp = e.target.value;
     setFormData(updatedFormData);
   };
   const deleteExpedition = async (expeditionId: number) => {
+
     try {
       const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
       if (jwtTokenCookie) {
@@ -101,9 +106,11 @@ const Expeditions: React.FC = () => {
     setFormData(updatedFormData);
   };
   const handleDeleteExpedition = () => {
+    
     if (expedition?.ID_Expedition) {
       deleteExpedition(expedition.ID_Expedition);
     }
+
   };
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -254,6 +261,7 @@ const Expeditions: React.FC = () => {
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
+    
   };
   return (
     <>
@@ -264,11 +272,12 @@ const Expeditions: React.FC = () => {
           <Row className="justify-content-center">
             <Col>
               <Form onSubmit={handleFormSubmit}>
-                <Form.Group controlId="formName" className="mb-3">
+                <Form.Group controlId="formName" className="mb-3" style={{ marginTop: '50px'}}>
                   <Form.Control
                     type="text"
                     defaultValue={formData?.Name_Exp || ''}
                     onChange={handleNameChange}
+                    disabled={expeditionn?.Status !== 'in'}
                   />
                 </Form.Group>
                 <Form.Group controlId="formLeader" className="mb-3">
@@ -276,6 +285,7 @@ const Expeditions: React.FC = () => {
                     type="text"
                     defaultValue={formData?.Leader || ''}
                     onChange={handleLeaderChange}
+                    disabled={expeditionn?.Status !== 'in'}
                   />
                 </Form.Group>
                 <Form.Group controlId="formDescribe" className="mb-3">
@@ -283,6 +293,7 @@ const Expeditions: React.FC = () => {
                     type="text"
                     defaultValue={formData?.Describe || ''}
                     onChange={handleDescribeChange}
+                    disabled={expeditionn?.Status !== 'in'}
                   />
                 </Form.Group>
                 <Form.Group controlId="formObjects" className="mb-2  text-center">
@@ -294,15 +305,17 @@ const Expeditions: React.FC = () => {
                         <div className="card-body  text-center">
                           <h5 className="card-title  text-center">{object.Name_Obj}</h5>
                           <h6 className="card-subtitle mb-2 text-muted  text-center">{object.Region} ({object.Year})</h6>
-                          <Button
-                            variant="dark"
-                            size="sm"
-                            onClick={() => {
-                              handleDeleteObject(expedition?.ID_Expedition || 0, object.ID_Object);
-                            }}
-                          >
-                            Удалить
-                          </Button>
+                          {expeditionn?.Status === 'in' && (
+                              <Button
+                                variant="dark"
+                                size="sm"
+                                onClick={() => {
+                                  handleDeleteObject(expedition?.ID_Expedition || 0, object.ID_Object);
+                                }}
+                              >
+                                Удалить
+                              </Button>
+                            )}
                         </div>
                       </div>
                     ))}
@@ -313,21 +326,27 @@ const Expeditions: React.FC = () => {
           </Row>
         </Col>
         <Col md={4} className="d-flex flex-column align-items-center justify-content-start">
+        {expeditionn?.Status === 'in' && (
           <div className="mt-3 mb-auto">
             <Button variant="dark" type="submit" onClick={handleFormSubmit}>
               Изменить экспедицию
             </Button>
           </div>
-          <div className="mt-3">
-            <Button variant="dark" onClick={handleFormExpedition}>
-              Сформировать экспедицию
-            </Button>
-          </div>
-          <div className="mt-3">
-            <Button variant="dark" onClick={handleDeleteExpedition}>
-              Удалить
-            </Button>
-          </div>
+            )}
+              {expeditionn?.Status === 'in' && (
+                <div className="mt-3">
+                  <Button variant="dark" onClick={handleFormExpedition}>
+                    Сформировать экспедицию
+                  </Button>
+                </div>
+              )}
+              {expeditionn?.Status === 'in' && (
+              <div className="mt-3">
+                <Button variant="dark" onClick={handleDeleteExpedition}>
+                  Удалить
+                </Button>
+              </div>
+            )}
         </Col>
       </Container>
     </>

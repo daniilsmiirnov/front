@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 
 const NavigationBar = () => {
     const user = useSelector((state: RootState) => state.user);
-    // console.log(user)
     const dispatch = useDispatch();
     const handleLogout = async () => {
         dispatch(logout());
@@ -62,7 +61,7 @@ const NavigationBar = () => {
           )}
           {user.Is_Super === true && (
             <>
-              <Nav.Link as={Link} to="/exp_mod">Все Экспедиции</Nav.Link>
+              <Nav.Link as={Link} to="/expedition_history/">Все Экспедиции</Nav.Link>
               <Nav.Link as={Link} to="/">Главная</Nav.Link>
               <Nav.Link onClick={handleLogout}>Выйти</Nav.Link>
             </>

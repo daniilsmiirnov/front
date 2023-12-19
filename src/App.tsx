@@ -22,9 +22,9 @@ function App() {
         {/* <Route path="/Main/about/" element={<AboutObject />} /> */}
         <Route path="/auth/" element={<Auth />} />
         <Route path="/register/" element={<Register />} />
-        <Route path="/expeditions/" element={<Expeditions />} />
+        <Route path="/expedition/:id" element={<Expeditions />} />
         <Route path="/expedition_history/" element={<ExpHistory />} />
-        <Route path="/expedition/:id" element={<SingleExpedition />} />
+        {/* <Route path="/expedition/:id" element={<SingleExpedition />} /> */}
 
       </Routes>
     </BrowserRouter>

@@ -2,10 +2,16 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Cart: React.FC = () => {
   const expedition = useSelector((state: RootState) => state.cart.expedition);
+  const navigate = useNavigate();
+  const handleExpeditionClick = () => {
+    if (expedition) {
+      navigate(`/expedition/${expedition.ID_Expedition}`);
+    }
+  };
 
   return (
     <Container>
@@ -16,9 +22,9 @@ const Cart: React.FC = () => {
             <>
               <Card.Title>{expedition.Name_Exp}</Card.Title>
               <Card.Text>Лидер: {expedition.Leader}</Card.Text>
-              <Link to="/expeditions/"> {/* Использование компонента Link */}
-                <Button variant="dark">Перейти к оформлению</Button>
-              </Link>
+
+                <Button variant="dark" onClick={handleExpeditionClick}>Перейти к оформлению</Button>
+
             </>
           ) : (
             <p>Корзина пуста</p>

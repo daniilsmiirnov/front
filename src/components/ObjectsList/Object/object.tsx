@@ -101,12 +101,12 @@ interface Expedition {
           <Card.Title>{obj.Name_Obj}</Card.Title>
           <Card.Text>
             {obj.Region}
-          </Card.Text>
-          {user.id!=-1 && ( // Отображение кнопки только при наличии авторизации пользователя
-          <Button  style={{ marginBottom: "5px" }} variant="secondary" onClick={addToExpedition}>
-            Добавить в экспедицию
-          </Button>
-        )}
+              </Card.Text>
+              {user.id !== -1 && !user.Is_Super && (
+                <Button style={{ marginBottom: "5px" }} variant="secondary" onClick={addToExpedition}>
+                  Добавить в экспедицию
+                </Button>
+                )}
           <Button variant="secondary"  onClick={ButtonClick}>Подробнее</Button>
         </Card.Body>
       </Card>
