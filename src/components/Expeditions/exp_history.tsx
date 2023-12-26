@@ -39,52 +39,54 @@
     DateApproving: string | null;
     Status: string;
     Leader: string;
-    CreatorId: CreatorInt | null;
-    ModeratorId: ModeratorInt | null;
+    ModeratorId: number | null;
+    CreatorId: number | null;
     Describe: string | null;
-    Objects: ObjectInt[]; 
+    Objects: ObjectInt[]; // Массив идентификаторов объектов
     Archive: string | null;
   }
 
   const ExpHistory: React.FC = () => {
+    
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
     const userExpeditions = useSelector((state: RootState) => state.expeditions.expeditions);
     const navigate = useNavigate();
     const [filteredExpeditions, setFilteredExpeditions] = useState<any[]>(userExpeditions);
+    const [filteredByUsernameExpeditions, setFilteredByUsernameExpeditions] = useState<any[]>(userExpeditions);
     // console.log('111',filteredExpeditions[0].CreatorId)
     const handleFilterChange = (filteredExpeditions: any[]) => {
       setFilteredExpeditions(filteredExpeditions);
     };
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
-          if (jwtTokenCookie) {
-            const token = jwtTokenCookie.split('=')[1];
-            const responseExp = await axios.get('http://127.0.0.1:8000/expedition/', {
-              withCredentials: true,
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            });
+    const fetchData = async () => {
+      try {
+        const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+        if (jwtTokenCookie) {
+          const token = jwtTokenCookie.split('=')[1];
+          const responseExp = await axios.get('http://127.0.0.1:8000/expedition/', {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
 
-            if (responseExp.status === 200) {
-              const expeditionsData: Expedition[] = Array.isArray(responseExp.data) ? responseExp.data : [];
-              dispatch(setExpeditions(expeditionsData));
-              console.log(responseExp.data); // Используем action SetExpedition для сохранения данных в хранилище
-            } else {
-              throw new Error('Failed to fetch expeditions');
-            }
+          if (responseExp.status === 200) {
+            const expeditionsData: Expedition[] = Array.isArray(responseExp.data) ? responseExp.data : [];
+            dispatch(setExpeditions(expeditionsData));
+            console.log(responseExp.data); 
+          } else {
+            throw new Error('Failed to fetch expeditions');
           }
-        } catch (error) {
-          console.error('Error fetching expeditions:', error);
         }
-      };
-
+      } catch (error) {
+        console.error('Error fetching expeditions:', error);
+      }
+    };
+    // console.log('ffffff',filteredExpeditions[0].Moderator.username)
+    useEffect(() => {
       const interval = setInterval(() => {
-        fetchData(); // Периодический запрос
+        fetchData();
 
       }, 3000); 
       fetchData(); 
@@ -137,7 +139,7 @@
               },
             }
           );
-
+          fetchData();
         }
       } catch (error) {
         console.error('Error updating expedition:', error);
@@ -159,10 +161,11 @@
             <h1>История Экспедиций</h1>
             {userExpeditions.length > 0 ? (
               <Table striped bordered hover responsive variant="dark">
-                <thead>
+                <thead>   
                   <tr>
                   {/* <th>Создатель</th> */}
                     <th>Название</th>
+                    <th>Пользователь</th>
                     <th>Лидер</th>
                     <th>Дата начала</th>
                     <th>Дата окончания</th>
@@ -175,14 +178,21 @@
                 </thead>
                 <tbody>
                     
-                  {filteredExpeditions.map((expedition:Expedition) => (
+                {filteredExpeditions
+                    .filter((expedition) => expedition.Status !== 'in' && expedition.Status !== 'de'  )
+                      .map((expedition: Expedition) => (
                     
                   <tr key={expedition.ID_Expedition} >
-                      {/* <td>{expedition.CreatorId.username}</td> */}
+                      
                       
                       <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
                     {expedition.Name_Exp}
                   </td>
+                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                    {expedition.ID_Creator.username}
+                    
+                  </td>
+
                   <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
                     {expedition.Leader}
                   </td>
@@ -207,14 +217,14 @@
           <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
             {expedition.ModeratorId ? expedition.ModeratorId.username : '-'}
           </td> */}
-                        {user.Is_Super && (
+                        {user.Is_Super && expedition.Status !== 'en' && expedition.Status !== 'ca' && (
                             <td>
                               <Button variant="primary" className="me-2" onClick={() => handleAction(expedition.ID_Expedition, 'en')}>
                               Принять
                               </Button>
                             </td>      
                           )}
-                        {user.Is_Super && (
+                        {user.Is_Super && expedition.Status !== 'en' && expedition.Status !== 'ca' &&(
                             <td>
                               <Button variant="secondary" className="me-2"onClick={() => handleAction(expedition.ID_Expedition, 'ca')}>
                               Отклонить

@@ -5,6 +5,7 @@ interface ExpeditionFilterState {
   Status: string;
   fromDate: string;
   toDate: string;
+  selectedUser: string;
 
 }
 
@@ -13,6 +14,7 @@ const initialState: ExpeditionFilterState = {
   Status: '',
   fromDate: '',
   toDate: '',
+  selectedUser: '',
 };
 
 const expeditionFilterSlice = createSlice({
@@ -31,15 +33,19 @@ const expeditionFilterSlice = createSlice({
     setToDate(state, action: PayloadAction<string>) {
       state.toDate = action.payload;
     },
+    setFilterUser: (state, action: PayloadAction<string>) => {
+      state.selectedUser = action.payload;
+    },
     clearExpeditionFilter(state) {
         // state.Name = '';
         state.Status = '';
         state.fromDate = '';
         state.toDate = '';
+        state.selectedUser = '';
       },
   },
 });
 
-export const {setFilterStatus, setFromDate, setToDate,clearExpeditionFilter} = expeditionFilterSlice.actions;
+export const {setFilterUser, setFilterStatus, setFromDate, setToDate,clearExpeditionFilter} = expeditionFilterSlice.actions;
 
 export default expeditionFilterSlice.reducer;

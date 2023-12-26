@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Object from "./Object/object";
-import { ObjectInt } from "../../Models/object";
+import { ObjectInt,ObjectExp } from "../../Models/object";
 import { Container,  Row, Col,Button  } from "react-bootstrap";
 import NavigationBar from "../Navbar/Navbar";
 import Cart from "../Cart/cart"
@@ -19,27 +19,55 @@ const ObjectsList: React.FC = () => {
     setFilteredObjects(filteredObjects);
   };
 
-
   useEffect(() => {
-
     const fetchData = async () => {
-
       try {
-        const response = await axios.get<ObjectInt[]>("http://127.0.0.1:8000/object/");
+        const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+        const token = jwtTokenCookie ? jwtTokenCookie.split('=')[1] : null;
+        
+        const response = await axios.get<ObjectInt[]>('http://127.0.0.1:8000/object/', {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : null,
+            'Content-Type': 'application/json',
+          },
+        });
+
         if (response.status === 200) {
-          console.log(response);
-          setList(response.data);
+          console.log('response',response.data.objects);
+          setList(response.data.objects);
+          console.log('list',objects)
         } else {
-          throw new Error("Failed to get data from the server");
+          throw new Error('Failed to get data from the server');
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching data:', error);
+
         setList(mockObjects);
       }
     };
 
     fetchData();
   }, []);
+  // useEffect(() => {
+
+  //   const fetchData = async () => {
+
+  //     try {
+  //       const response = await axios.get<ObjectInt[]>("http://127.0.0.1:8000/object/");
+  //       if (response.status === 200) {
+  //         console.log(response);
+  //         setList(response.data);
+  //       } else {
+  //         throw new Error("Failed to get data from the server");
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //       setList(mockObjects);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
   
   return (
     <>

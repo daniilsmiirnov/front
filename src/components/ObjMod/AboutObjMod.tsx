@@ -108,6 +108,7 @@ const ObjectDetails: React.FC = () => {
       } else {
         console.error('JWT token not found');
       }
+      navigate('/object_list')
     } catch (error) {
       console.error('Error creating object:', error);
     }
@@ -143,11 +144,9 @@ const ObjectDetails: React.FC = () => {
         );
 
         if (responseChange.status === 200) {
-          if (objectData.Status === 'del') {
+          
             navigate('/object_list'); // Redirect to object_list on successful delete
-          } else {
-            // Handle success in any way required
-          }
+         
         }
       } else {
         console.error('JWT token not found');
@@ -241,9 +240,9 @@ const ObjectDetails: React.FC = () => {
                 <Button variant="dark" className="me-2 col-auto" onClick={handleEditObject}>
                   Редактировать
                 </Button>
-                <Button variant="dark" className="col-auto" onClick={handleDelete}>
+                {/* <Button variant="dark" className="col-auto" onClick={handleDelete}>
                   Удалить
-                </Button>
+                </Button> */}
               </>
             )}
           </Row>

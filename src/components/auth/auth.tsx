@@ -15,6 +15,16 @@ export interface ObjectInt {
   Status: string;
   Image_Url: string;
 }
+interface CreatorInt {
+  id: number;
+  username: string;
+}
+
+interface ModeratorInt {
+  id: number;
+  username: string;
+}
+
 interface Expedition {
   ID_Expedition: number;
   Name_Exp: string;
@@ -23,10 +33,10 @@ interface Expedition {
   DateApproving: string | null;
   Status: string;
   Leader: string;
-  ModeratorId: number | null;
-  CreatorId: number | null;
+  CreatorId: CreatorInt | null;
+  ModeratorId: ModeratorInt | null;
   Describe: string | null;
-  Objects: ObjectInt[]; // Массив идентификаторов объектов
+  Objects: ObjectInt[]; 
   Archive: string | null;
 }
 

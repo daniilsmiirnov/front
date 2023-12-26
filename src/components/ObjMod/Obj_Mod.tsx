@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Table, Button, Container } from 'react-bootstrap';
 import NavigationBar from '../Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { compose } from 'redux';
 
 export interface ObjectInt {
   ID_Object: number;
@@ -16,41 +17,69 @@ export interface ObjectInt {
 
 const ObjectTable: React.FC = () => {
   const [objects, setObjects] = useState<ObjectInt[]>([]);
-  const [isCreating, setIsCreating] = useState(false); // Создаем состояние для определения создания объекта
-  const navigate = useNavigate(); // Использование useNavigate для программной навигации
+  const [isCreating, setIsCreating] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<ObjectInt[]>('http://127.0.0.1:8000/objectde/');
+  const handleDeleteObject = async (id: number) => {
+    try {
+      const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+      if (jwtTokenCookie) {
+        const token = jwtTokenCookie.split('=')[1];
+
+        const response = await axios.delete(
+          `http://127.0.0.1:8000/object/${id}/`,
+          {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          }
+        );
+
         if (response.status === 200) {
-          setObjects(response.data);
-        } else {
-          throw new Error('Failed to get data from the server');
+          // Если удаление прошло успешно, обновляем данные
+          fetchData();
+          console.log(2)
         }
-      } catch (error) {
-        console.error(error);
-        setObjects([]);
+        fetchData();
+      } else {
+        console.error('JWT token not found');
       }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleEdit = (id: number) => {
-    console.log(`Edit object with ID ${id}`);
+    } catch (error) {
+      console.error('Error deleting object:', error);
+    }
   };
 
   const handleDelete = (id: number) => {
-    console.log(`Delete object with ID ${id}`);
+    handleDeleteObject(id);
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<ObjectInt[]>('http://127.0.0.1:8000/objectde/');
+      if (response.status === 200) {
+        setObjects(response.data); // Устанавливаем состояние после успешного получения данных
+      } else {
+        throw new Error('Failed to get data from the server');
+      }
+    } catch (error) {
+      console.error(error);
+      setObjects([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    console.log(1) // Вызываем загрузку данных при монтировании компонента
+  }, []);
+
+
   const handleRowClick = (id: number) => {
-    navigate(`/object/${id}`); // Программный переход на страницу ObjectDetails по ID объекта
+    navigate(`/object/${id}`);
   };
 
   const handleCreateObject = () => {
-    setIsCreating(true); // Устанавливаем состояние создания нового объекта в true
+    setIsCreating(true);
     navigate('/object/0');
   };
 
@@ -60,33 +89,43 @@ const ObjectTable: React.FC = () => {
       <div className="bg-secondary py-4">
         <Container fluid style={{ minHeight: '100vh' }} className="text-center">
           <h1>Список объектов</h1>
-          
-            <Button variant="dark" style={{ marginBottom: '20px' }} onClick={handleCreateObject}>
-              Создать объект
-            </Button> 
-            <Table striped bordered hover variant="dark">
-              <thead>
-                <tr>
-                  <th>Название</th>
-                  <th>Регион</th>
-                  <th>Год</th>
-                  <th>Открыватель</th>
-                  <th>Статус</th>
+          <Button variant="dark" style={{ marginBottom: '20px' }} onClick={handleCreateObject}>
+            Создать объект
+          </Button>
+          <Table striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th>Название</th>
+                <th>Регион</th>
+                <th>Год</th>
+                <th>Открыватель</th>
+                <th>Статус</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+              {objects.map((obj) => (
+                <tr key={obj.ID_Object}>
+                 <td onClick={() => handleRowClick(obj.ID_Object)} style={{ cursor: 'pointer' }}>
+                  {obj.Name_Obj}</td>
+
+                  <td onClick={() => handleRowClick(obj.ID_Object)} style={{ cursor: 'pointer' }}>
+                    {obj.Region}</td>
+                    <td onClick={() => handleRowClick(obj.ID_Object)} style={{ cursor: 'pointer' }}>
+                      {obj.Year}</td>
+                      <td onClick={() => handleRowClick(obj.ID_Object)} style={{ cursor: 'pointer' }}>
+                        {obj.Opener}</td>
+                        <td onClick={() => handleRowClick(obj.ID_Object)} style={{ cursor: 'pointer' }}>
+                          {obj.Status}</td>
+                  <td>
+                    <Button variant="dark" onClick={() => handleDelete(obj.ID_Object)}>
+                      Удалить
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {objects.map((obj) => (
-                  <tr key={obj.ID_Object} onClick={() => handleRowClick(obj.ID_Object)}>
-                    <td>{obj.Name_Obj}</td>
-                    <td>{obj.Region}</td>
-                    <td>{obj.Year}</td>
-                    <td>{obj.Opener}</td>
-                    <td>{obj.Status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          )
+              ))}
+            </tbody>
+          </Table>
         </Container>
       </div>
     </>

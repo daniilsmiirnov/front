@@ -1,4 +1,5 @@
 import {ObjectInt} from '../../src/Models/object';
+// import { ObjectItem } from '../components/ObjectsList/Object/object';
 import image from './defimg.jpg';
 // interface Objs {
 
@@ -55,7 +56,7 @@ import image from './defimg.jpg';
 //   ];
   
 //   
-export const mockObjects: ObjectInt[] =[
+export const mockObjects: ObjectItem[] =[
           {
               "ID_Object": 3,
               "Name_Obj": "Красноярск",

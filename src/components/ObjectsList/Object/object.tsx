@@ -12,6 +12,20 @@ import { addToCart } from '../../../store/CartSlice';
 interface ObjProps {
     obj: ObjectInt
 }
+// export interface ObjectInt {
+//   ID_Object: number;
+//   Name_Obj: string;
+//   Region: string;
+//   Year: number;
+//   Opener: string;
+//   Status: string;
+//   Image_Url: string;
+// }
+export interface ObjectExp {
+  expedition_draft: number;
+  objects: ObjectInt[];
+}
+
 export interface ObjectInt {
   ID_Object: number;
   Name_Obj: string;
@@ -21,6 +35,16 @@ export interface ObjectInt {
   Status: string;
   Image_Url: string;
 }
+interface CreatorInt {
+  id: number;
+  username: string;
+}
+
+interface ModeratorInt {
+  id: number;
+  username: string;
+}
+
 interface Expedition {
   ID_Expedition: number;
   Name_Exp: string;

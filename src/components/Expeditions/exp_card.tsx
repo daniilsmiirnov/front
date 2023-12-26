@@ -24,14 +24,14 @@ interface Expedition {
   ID_Expedition: number;
   Name_Exp: string;
   DateStart: string;
-  DateEnd: string| null;
+  DateEnd: string | null;
   DateApproving: string | null;
   Status: string;
   Leader: string;
   ModeratorId: number | null;
   CreatorId: number | null;
   Describe: string | null;
-  Objects: ObjectInt[]; 
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
   Archive: string | null;
 }
 interface Props {

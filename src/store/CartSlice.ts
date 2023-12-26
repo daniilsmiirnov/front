@@ -8,6 +8,30 @@ interface ObjectInt {
     Status: string;
     Image_Url: string;
 }
+interface CreatorInt {
+  id: number;
+  username: string;
+}
+
+interface ModeratorInt {
+  id: number;
+  username: string;
+}
+
+// interface Expedition {
+//   ID_Expedition: number;
+//   Name_Exp: string;
+//   DateStart: string;
+//   DateEnd: string | null;
+//   DateApproving: string | null;
+//   Status: string;
+//   Leader: string;
+//   CreatorId: CreatorInt | null;
+//   ModeratorId: ModeratorInt | null;
+//   Describe: string | null;
+//   Objects: ObjectInt[]; 
+//   Archive: string | null;
+// }
 interface Expedition {
   ID_Expedition: number;
   Name_Exp: string;
@@ -19,10 +43,9 @@ interface Expedition {
   ModeratorId: number | null;
   CreatorId: number | null;
   Describe: string | null;
-  Objects: ObjectInt[];
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
   Archive: string | null;
 }
-
 interface CartState {
   expedition: Expedition | null;
 }

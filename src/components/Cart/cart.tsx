@@ -3,12 +3,28 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-
+import axios from "axios"
 const Cart: React.FC = () => {
   const expedition = useSelector((state: RootState) => state.cart.expedition);
   const navigate = useNavigate();
-  const handleExpeditionClick = () => {
+  const handleExpeditionClick =async () => {
     if (expedition) {
+      try {
+        const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+        const token = jwtTokenCookie ? jwtTokenCookie.split('=')[1] : null;
+        
+        const response = await axios.get(`http://127.0.0.1:8000/expedition/${expedition.ID_Expedition}`, {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : null,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.status === 200) {
+        } 
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
       navigate(`/expedition/${expedition.ID_Expedition}`);
     }
   };

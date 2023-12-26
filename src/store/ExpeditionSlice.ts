@@ -9,20 +9,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 //   Status: string;
 //   Image_Url: string;
 // }
-// interface Expedition {
-//   ID_Expedition: number;
-//   Name_Exp: string;
-//   DateStart: string;
-//   DateEnd: string | null;
-//   DateApproving: string | null;
-//   Status: string;
-//   Leader: string;
-//   ModeratorId: number | null;
-//   CreatorId: number | null;
-//   Describe: string | null;
-//   Objects: ObjectInt[]; // Массив идентификаторов объектов
-//   Archive: string | null;
-// }
+interface Expedition {
+  ID_Expedition: number;
+  Name_Exp: string;
+  DateStart: string;
+  DateEnd: string | null;
+  DateApproving: string | null;
+  Status: string;
+  Leader: string;
+  ModeratorId: number | null;
+  CreatorId: number | null;
+  Describe: string | null;
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
+  Archive: string | null;
+}
 interface ObjectInt {
   ID_Object: number;
   Name_Obj: string;
@@ -42,20 +42,21 @@ interface ModeratorInt {
   username: string;
 }
 
-interface Expedition {
-  ID_Expedition: number;
-  Name_Exp: string;
-  DateStart: string;
-  DateEnd: string | null;
-  DateApproving: string | null;
-  Status: string;
-  Leader: string;
-  CreatorId: CreatorInt | null;
-  ModeratorId: ModeratorInt | null;
-  Describe: string | null;
-  Objects: ObjectInt[]; 
-  Archive: string | null;
-}
+// interface Expedition {
+//   ID_Expedition: number;
+//   Name_Exp: string;
+//   DateStart: string;
+//   DateEnd: string | null;
+//   DateApproving: string | null;
+//   Status: string;
+//   Leader: string;
+//   CreatorId: CreatorInt | null;
+//   ModeratorId: ModeratorInt | null;
+//   Describe: string | null;
+//   Objects: ObjectInt[]; 
+//   Archive: string | null;
+// }
+
 interface ExpeditionsState {
   expeditions: Expedition[];
 }

@@ -22,7 +22,13 @@ const ObjectFilter1: React.FC<FilterProps> = ({ onFilterChange }) => {
 
   const handleFilterChange = async () => {
     try {
+      const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+      const token = jwtTokenCookie ? jwtTokenCookie.split('=')[1] : null;     
       const response: AxiosResponse<ObjectInt[]> = await axios.get('http://127.0.0.1:8000/object/', {
+        headers: {
+                Authorization: token ? `Bearer ${token}` : null,
+                'Content-Type': 'application/json',
+              },
         params: {
           name: filterName,
           year: filterYear,
@@ -31,7 +37,7 @@ const ObjectFilter1: React.FC<FilterProps> = ({ onFilterChange }) => {
       });
 
       if (response.status === 200) {
-        onFilterChange(response.data);
+        onFilterChange(response.data.objects);
       } else {
         throw new Error('Failed to get filtered data from the server');
       }

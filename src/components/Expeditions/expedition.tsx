@@ -59,13 +59,12 @@ interface Expedition {
   DateApproving: string | null;
   Status: string;
   Leader: string;
-  CreatorId: CreatorInt | null;
-  ModeratorId: ModeratorInt | null;
+  ModeratorId: number | null;
+  CreatorId: number | null;
   Describe: string | null;
-  Objects: ObjectInt[]; 
+  Objects: ObjectInt[]; // Массив идентификаторов объектов
   Archive: string | null;
 }
-
 const Expeditions: React.FC = () => {
   const expedition = useSelector((state: RootState) => state.cart.expedition);
   const userExpeditions = useSelector((state: RootState) => state.expeditions.expeditions);

@@ -8,10 +8,12 @@ import { removeFromCart } from '../../store/CartSlice';
 import { Link } from 'react-router-dom';
 import { resetFilters } from '../../store/FilterObjSlice';
 import { clearExpeditionFilter } from '../../store/FilterExpSlice';
+import { useNavigate } from 'react-router-dom';
 
 const NavigationBar = () => {
     const user = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleLogout = async () => {
         dispatch(logout());
         dispatch(removeFromCart());
@@ -26,7 +28,6 @@ const NavigationBar = () => {
             const response = await axios.post(
               `http://127.0.0.1:8000/auth/logout/`,
               {},
-  
               {
                 withCredentials: true,
                 headers: {
@@ -37,6 +38,8 @@ const NavigationBar = () => {
             );
       
             console.log(response);
+            document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            navigate('/');
           } 
 
           // await axios.post('http://127.0.0.1:8000/auth/logout/');
