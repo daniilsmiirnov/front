@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setFilterStatus, setFromDate, setToDate } from '../../store/FilterExpSlice';
 import { Container, Form } from 'react-bootstrap';
-
+import DatePicker from 'react-date-picker';
 interface ExpeditionFilterProps {
   onFilterChange: (filteredExpeditions: any[]) => void;
 }
@@ -53,20 +53,34 @@ const ExpeditionFilter: React.FC<ExpeditionFilterProps> = ({ onFilterChange }) =
             <option value="ca">Отменён</option>
             <option value="de">Удалён</option>
         </Form.Control>
+        {/* <DatePicker
+            className="mb-2 w-75 text-center" // Увеличение ширины
+            calendarClassName="react-calendar-custom" // Стили для календаря
+            value={filterFromDate ? new Date(filterFromDate) : null}
+            onChange={(date: Date | null) => dispatch(setFromDate(date ? date.toISOString() : null))}
+            format="dd.MM, HH:mm"
+            showTimeInput
+            />
+            <DatePicker
+            className="mb-2 w-75 text-center" // Увеличение ширины
+            calendarClassName="react-calendar-custom" // Стили для календаря
+            value={filterToDate ? new Date(filterToDate) : null}
+            onChange={(date: Date | null) => dispatch(setToDate(date ? date.toISOString() : null))}
+            format="dd.MM, HH:mm"
+            showTimeInput
+            /> */}
         <Form.Control
-          className="mb-2 w-50 text-center"
-          type="text"
-          placeholder="Начальная дата"
-          value={filterFromDate}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFromDate(e.target.value))}
-        />
-        <Form.Control
-          className="mb-2 w-50 text-center"
-          type="text"
-          placeholder="Конечная дата"
-          value={filterToDate}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setToDate(e.target.value))}
-        />
+            className="mb-2 w-50 text-center"
+            type="datetime-local" // Используем тип для ввода даты и времени
+            value={filterFromDate || ''}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFromDate(e.target.value))}
+            />
+            <Form.Control
+            className="mb-2 w-50 text-center"
+            type="datetime-local" // Используем тип для ввода даты и времени
+            value={filterToDate || ''}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setToDate(e.target.value))}
+            />
       </Form>
     </Container>
   );

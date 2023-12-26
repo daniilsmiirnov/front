@@ -6,6 +6,8 @@ import axios from 'axios';
 import { logout } from '../../store/UserSlice';
 import { removeFromCart } from '../../store/CartSlice';
 import { Link } from 'react-router-dom';
+import { resetFilters } from '../../store/FilterObjSlice';
+import { clearExpeditionFilter } from '../../store/FilterExpSlice';
 
 const NavigationBar = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -13,6 +15,9 @@ const NavigationBar = () => {
     const handleLogout = async () => {
         dispatch(logout());
         dispatch(removeFromCart());
+        dispatch(resetFilters());
+        dispatch(clearExpeditionFilter());
+
         try {
           const jwtTokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
           if (jwtTokenCookie) {
@@ -61,6 +66,7 @@ const NavigationBar = () => {
           )}
           {user.Is_Super === true && (
             <>
+              <Nav.Link as={Link} to="/object_list/">Таблица Объектов</Nav.Link>
               <Nav.Link as={Link} to="/expedition_history/">Все Экспедиции</Nav.Link>
               <Nav.Link as={Link} to="/">Главная</Nav.Link>
               <Nav.Link onClick={handleLogout}>Выйти</Nav.Link>
