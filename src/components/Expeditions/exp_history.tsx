@@ -160,7 +160,7 @@
           )}
             <h1>История Экспедиций</h1>
             {userExpeditions.length > 0 ? (
-              <Table striped bordered hover responsive variant="dark">
+              <Table bordered hover responsive variant="dark">
                 <thead>   
                   <tr>
                   {/* <th>Создатель</th> */}
@@ -180,60 +180,60 @@
                     
                 {filteredExpeditions
                     .filter((expedition) => expedition.Status !== 'in' && expedition.Status !== 'de'  )
-                      .map((expedition: Expedition) => (
+                      .map((expedition: Expedition, index: number) => (
                     
-                  <tr key={expedition.ID_Expedition} >
+                  <tr key={expedition.ID_Expedition } className='bg-secondary py-4' >
                       
                       
                       <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {expedition.Name_Exp}
-                  </td>
-                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {expedition.ID_Creator.username}
-                    
-                  </td>
+                        {expedition.Name_Exp}
+                      </td>
+                      <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                        {expedition.ID_Creator.username}
+                        
+                      </td>
 
-                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {expedition.Leader}
-                  </td>
-                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {formatDate(expedition.DateStart)}
-                  </td>
-                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {formatDate(expedition.DateEnd)}
-                  </td>
-                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {formatDate(expedition.DateApproving)}
-                  </td>
-                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {getStatusText(expedition.Status)}
-                  </td>
-                  <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-                    {expedition.Archive || '-'}
-                  </td>
-                  {/* <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-            {expedition.CreatorId ? expedition.CreatorId.username : '-'}
-          </td>
-          <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
-            {expedition.ModeratorId ? expedition.ModeratorId.username : '-'}
-          </td> */}
-                        {user.Is_Super && expedition.Status !== 'en' && expedition.Status !== 'ca' && (
-                            <td>
-                              <Button variant="primary" className="me-2" onClick={() => handleAction(expedition.ID_Expedition, 'en')}>
-                              Принять
-                              </Button>
-                            </td>      
-                          )}
-                        {user.Is_Super && expedition.Status !== 'en' && expedition.Status !== 'ca' &&(
-                            <td>
-                              <Button variant="secondary" className="me-2"onClick={() => handleAction(expedition.ID_Expedition, 'ca')}>
-                              Отклонить
-                              </Button>
-                            </td>      
-                          )} 
-                    </tr>
-                  ))}
-                </tbody>
+                      <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                        {expedition.Leader}
+                      </td>
+                      <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                        {formatDate(expedition.DateStart)}
+                      </td>
+                      <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                        {formatDate(expedition.DateEnd)}
+                      </td>
+                      <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                        {formatDate(expedition.DateApproving)}
+                      </td>
+                      <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                        {getStatusText(expedition.Status)}
+                      </td>
+                      <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                        {expedition.Archive || '-'}
+                      </td>
+                      {/* <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                {expedition.CreatorId ? expedition.CreatorId.username : '-'}
+              </td>
+              <td onClick={() => handleRowClick(expedition.ID_Expedition)} style={{ cursor: 'pointer' }}>
+                {expedition.ModeratorId ? expedition.ModeratorId.username : '-'}
+              </td> */}
+                            {user.Is_Super && expedition.Status !== 'en' && expedition.Status !== 'ca' && (
+                                <td  className='bg-secondary py-4'>
+                                  <Button variant="primary" className="me-2 " onClick={() => handleAction(expedition.ID_Expedition, 'en')}>
+                                  Принять
+                                  </Button>
+                                </td>      
+                              )}
+                            {user.Is_Super && expedition.Status !== 'en' && expedition.Status !== 'ca' &&(
+                                <td className='bg-secondary py-4'>
+                                  <Button variant="dark" className="me-2"onClick={() => handleAction(expedition.ID_Expedition, 'ca')}>
+                                  Отклонить
+                                  </Button>
+                                </td>      
+                              )} 
+                        </tr>
+                      ))}
+                    </tbody>
               </Table>
             ) : (
               <Alert variant="info" className="mt-3">
