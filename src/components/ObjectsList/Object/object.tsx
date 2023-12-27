@@ -126,7 +126,7 @@ interface Expedition {
           <Card.Text>
             {obj.Region}
               </Card.Text>
-              {user.id !== -1 && !user.Is_Super && (
+              {user.id !== -1 && (
                 <Button style={{ marginBottom: "5px" }} variant="secondary" onClick={addToExpedition}>
                   Добавить в экспедицию
                 </Button>

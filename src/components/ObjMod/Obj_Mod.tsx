@@ -118,7 +118,7 @@ const ObjectTable: React.FC = () => {
                         <td onClick={() => handleRowClick(obj.ID_Object)} style={{ cursor: 'pointer' }}>
                           {obj.Status}</td>
                   <td>
-                    <Button variant="dark" onClick={() => handleDelete(obj.ID_Object)}>
+                    <Button variant="secondary" onClick={() => handleDelete(obj.ID_Object)}>
                       Удалить
                     </Button>
                   </td>

@@ -90,6 +90,7 @@ const Auth: React.FC = () => {
         
         console.log('ExpeditionData:',expeditionsData);
         const expeditionIn = expeditionsData.find(expedition => expedition.Status === 'in');
+        console.log('ExpeditionIn:',expeditionIn);
         dispatch(setExpeditions(expeditionsData));
         if (expeditionIn) {
           console.log('cart:',expeditionIn);
