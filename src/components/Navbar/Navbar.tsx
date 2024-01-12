@@ -1,6 +1,7 @@
 // import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import { useSelector,useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { RootState } from '../../store/store';
 import axios from 'axios';
 import { logout } from '../../store/UserSlice';
@@ -12,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 const NavigationBar = () => {
     const user = useSelector((state: RootState) => state.user);
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleLogout = async () => {
@@ -53,6 +55,9 @@ const NavigationBar = () => {
             <Container>
                 <Navbar.Brand style={{ marginLeft: '50px' }} as={Link} to="/">Экспедиции</Navbar.Brand>
                 <Nav className="mr-auto">
+                <Navbar.Text style={{ marginRight: '10px', color: 'white' }}>
+                        {user.username ? `${user.username} - ${user.Is_Super ? 'Организатор' : 'Путешественник'}` : 'Гость'}
+                    </Navbar.Text>
           {user.Is_Super === false && user.id === -1 && (
             <>
               <Nav.Link as={Link} to="/">Главная</Nav.Link>
